@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Social Media + Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f0f2f5;
+    }
+    .hidden {
+      display: none !important;
+    }
+
+    /* Portfolio Styles */
+    #portfolioSection {
+      max-width: 1100px;
+      margin: auto;
+      padding: 2.5rem 1rem;
+      background: linear-gradient(120deg, #e9f7ef 0%, #f0fff4 100%);
+      color: #30335a;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    #portfolioSection header {
+      height: 100vh;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), 
+        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+    }
+    #portfolioSection header h1 {
+      font-size: 3rem;
+      font-weight: 600;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    #portfolioSection header p {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+
+    #portfolioSection nav {
+      background: #1b5e20;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    #portfolioSection nav a {
+      margin: 0 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      transition: 0.3s;
+    }
+    #portfolioSection nav a:hover {
+      background: #fff;
+      color: #1b5e20;
+    }
+
+    #portfolioSection main section {
+      margin-bottom: 3rem;
+      padding: 2rem 1rem;
+      border-radius: 1.5rem;
+    }
+
+    #portfolioSection main h2 {
+      color: #2e7d32;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1.5em;
+      position: relative;
+    }
+    #portfolioSection main h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: #2e7d32;
+      margin: 10px auto 0;
+      border-radius: 10px;
+    }
+
+    .card-grid {
+      display: grid;
+      gap: 1.8rem;
+      grid-template-columns: repeat(auto-fit,minmax(270px,1fr));
+    }
+
+    .card {
+      padding: 0.5em;
+      transition: all 0.35s ease;
+      text-align: center;
+    }
+    .card-icon {
+      font-size: 2.5em;
+      color: #2e7d32;
+      transition: 0.3s;
+      margin-bottom: 0.6em;
+      display: block;
+    }
+    .card-title {
+      font-weight: 600;
+      color: #1b5e20;
+      margin-bottom: 0.3em;
+      font-size: 1.15em;
+    }
+    .card-desc {
+      color: #444;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+    .card-extra {
+      font-size: 0.9em;
+      font-style: italic;
+      color: #37909d;
+      margin-top: 0.3em;
+    }
+
+    .card:hover {
+      background: rgba(255,255,255,0.85);
+      border-radius: 1.2rem;
+      padding: 1.4em;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      border: 1px solid rgba(46,125,50,0.3);
+      backdrop-filter: blur(10px);
+      transform: translateY(-6px);
+    }
+
+    .card:hover .card-icon {
+      transform: scale(1.2);
+      color: #1b5e20;
+    }
+
+    a {
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      text-decoration: underline;
+      color: #1b5e20;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.95em;
+      background: #1b5e20;
+      color: white;
+      border-top-right-radius: 50px 30px;
+      margin-top: 3rem;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+      #portfolioSection header h1 {
+        font-size: 2.2rem;
+      }
+    }
+
+    /* Popup */
+    .popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      z-index: 2000;
+    }
+    .popup.show {
+      visibility: visible;
+      opacity: 1;
+    }
+    .popup-content {
+      position: relative;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 2rem;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+      animation: popIn 0.5s ease;
+    }
+    .popup-content h2 {
+      margin-bottom: 0.5rem;
+      color: #1b5e20;
+    }
+    .popup-content p {
+      font-size: 1rem;
+      color: #444;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.8rem;
+      color: #333;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .close-btn:hover {
+      color: #1b5e20;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <div class="container py-4" id="authSection">
+    <h2 class="mb-4" id="authTitle">Login</h2>
+
+    <form id="loginForm" class="mb-3">
+      <div class="mb-3">
+        <label for="loginEmail" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="loginEmail" required />
+      </div>
+      <div class="mb-3">
+        <label for="loginPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="loginPassword" required />
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+      <p class="mt-3">Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+    </form>
+
+    <form id="signupForm" style="display:none;">
+      <div class="mb-3">
+        <label for="signupName" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="signupName" required />
+      </div>
+      <div class="mb-3">
+        <label for="signupEmail" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="signupEmail" required />
+      </div>
+      <div class="mb-3">
+        <label for="signupPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="signupPassword" required />
+      </div>
+      <div class="mb-3">
+        <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" id="signupConfirmPassword" required />
+      </div>
+      <button type="submit" class="btn btn-success">Sign Up</button>
+      <p class="mt-3">Already have an account? <a href="#" id="showLogin">Login here</a></p>
+    </form>
+  </div>
+
+
+  <section id="portfolioSection" class="hidden">
+    <div id="welcomePopup" class="popup">
+      <div class="popup-content">
+        <span class="close-btn">&times;</span>
+        <h2>Hey! 👋</h2>
+        <p>Welcome to my portfolio</p>
+      </div>
+    </div>
+
+    <header>
+      <h1>Ankitha Allu</h1>
+      <p>Frontend Developer</p>
+      <button id="logoutBtn" class="btn btn-danger mt-3 w-100 mx-auto" style="max-width: 180px;">Logout</button>
+    </header>
+
+    <nav>
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#internships">Internships</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <main>
+      
+      <section id="about">
+        <h2>Career Objective</h2>
+        <div class="card-grid">
+          <div class="card">
+            <span class="card-icon"><i class="fas fa-user"></i></span>
+            <div class="card-desc">
+              I am excited to start my career with a company that values new ideas and growth.
+              I want to use my skills and knowledge to make a real difference.
+              I am eager to learn new things, take on challenges, and grow along with the company.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2>Projects</h2>
+        <div class="card-grid">
+          <div class="card"><span class="card-icon"><i class="fas fa-desktop"></i></span><div class="card-title">Portfolio Website</div><div class="card-desc">Built a responsive portfolio using HTML, CSS, JS with career, skills, and projects sections.</div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-bolt"></i></span><div class="card-title">Electricity from Waste Materials</div><div class="card-desc">Developed a model generating electricity from waste. Achieved ~5V proving real-world viability.</div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-cloud-sun"></i></span><div class="card-title">Weather App</div><div class="card-desc">Created a weather site using HTML, CSS, and JS.<br><a href="https://ankithaallu143.github.io/Whether-app/" target="_blank">🔗 View Project</a></div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-gamepad"></i></span><div class="card-title">Play with me 🎮</div><div class="card-desc">Rock Paper Scissors – a fun browser game!<br><a href="https://ankithaallu143.github.io/Rock_paper_sissor/" target="_blank">▶ Play Now</a></div></div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="card-grid">
+          <div class="card"><span class="card-icon"><i class="fab fa-html5"></i></span><div class="card-title">HTML5</div></div>
+          <div class="card"><span class="card-icon"><i class="fab fa-css3-alt"></i></span><div class="card-title">CSS3</div></div>
+          <div class="card"><span class="card-icon"><i class="fab fa-js"></i></span><div class="card-title">JavaScript</div></div>
+          <div class="card"><span class="card-icon"><i class="fab fa-react"></i></span><div class="card-title">React.js</div></div>
+          <div class="card"><span class="card-icon"><i class="fab fa-java"></i></span><div class="card-title">Java</div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-code-branch"></i></span><div class="card-title">GIT</div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-laptop-code"></i></span><div class="card-title">Eclipse</div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-file-word"></i></span><div class="card-title">MS Office, Word, Excel, PPT</div></div>
+        </div>
+      </section>
+
+      <section id="education">
+        <h2>Education</h2>
+        <div class="card-grid">
+          <div class="card"><span class="card-icon"><i class="fas fa-graduation-cap"></i></span><div class="card-title">B.Tech in ECE</div><div class="card-desc">Sri Venkateswara College of Engineering</div><div class="card-extra">2021–2025 | 77.5% CGPA</div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-university"></i></span><div class="card-title">Intermediate (MPC)</div><div class="card-desc">Narayana Junior College</div><div class="card-extra">2019–2021 | 8.32 CGPA</div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-school"></i></span><div class="card-title">SSC</div><div class="card-desc">AP Residential School</div><div class="card-extra">2018–2019 | 9.7 CGPA</div></div>
+        </div>
+      </section>
+
+      <section id="certifications">
+        <h2>Certifications</h2>
+        <div class="card-grid">
+          <div class="card"><span class="card-icon"><i class="fas fa-certificate"></i></span><div class="card-title">Internet of Things (IoT)</div><div class="card-desc">NPTEL</div></div>
+        </div>
+      </section>
+
+      <section id="internships">
+        <h2>Internships</h2>
+        <div class="card-grid">
+          <div class="card"><span class="card-icon"><i class="fas fa-cloud"></i></span><div class="card-title">Cloud Computing Intern</div><div class="card-desc">Hands-on with AWS & Azure – VM deployment, storage, networking, and cost optimization.</div></div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <div class="card-grid">
+          <div class="card"><span class="card-icon"><i class="fas fa-envelope"></i></span><div class="card-title">Email</div><div class="card-desc"><a href="mailto:alluankitha123@gmail.com">alluankitha123@gmail.com</a></div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-phone"></i></span><div class="card-title">Phone</div><div class="card-desc">+91 9347295336</div></div>
+          <div class="card"><span class="card-icon"><i class="fas fa-map-marker-alt"></i></span><div class="card-title">Location</div><div class="card-desc">Hyderabad</div></div>
+          <div class="card"><span class="card-icon"><i class="fab fa-linkedin"></i></span><div class="card-title">LinkedIn</div><div class="card-desc"><a href="#">LinkedIn Profile</a></div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © 2025 Ankitha Allu | All Rights Reserved
+    </footer>
+  </section>
+
+  <script>
+  
+    const USERS_KEY = "smp_users";
+    const LOGGED_USER_KEY = "smp_loggedUser";
+
+ 
+    const authSection = document.getElementById("authSection");
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+    const showSignup = document.getElementById("showSignup");
+    const showLogin = document.getElementById("showLogin");
+    const authTitle = document.getElementById("authTitle");
+    const portfolioSection = document.getElementById("portfolioSection");
+
+    
+    const welcomePopup = document.getElementById("welcomePopup");
+    const closeBtn = document.querySelector(".close-btn");
+
+
+    showSignup.addEventListener("click", (e) => {
+      e.preventDefault();
+      loginForm.style.display = "none";
+      signupForm.style.display = "block";
+      authTitle.textContent = "Sign Up";
+    });
+
+    showLogin.addEventListener("click", (e) => {
+      e.preventDefault();
+      signupForm.style.display = "none";
+      loginForm.style.display = "block";
+      authTitle.textContent = "Login";
+    });
+
+   
+    function getUsers() {
+      return JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+
+    function getLoggedUser() {
+      return JSON.parse(localStorage.getItem(LOGGED_USER_KEY));
+    }
+
+    function setLoggedUser(user) {
+      localStorage.setItem(LOGGED_USER_KEY, JSON.stringify(user));
+    }
+
+    function logout() {
+      localStorage.removeItem(LOGGED_USER_KEY);
+      portfolioSection.classList.add("hidden");
+      authSection.style.display = "block";
+      loginForm.style.display = "block";
+      signupForm.style.display = "none";
+      authTitle.textContent = "Login";
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", logout);
+
+  
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("signupName").value.trim();
+      const email = document.getElementById("signupEmail").value.trim().toLowerCase();
+      const password = document.getElementById("signupPassword").value;
+      const confirmPassword = document.getElementById("signupConfirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const users = getUsers();
+
+      if (users.some((u) => u.email === email)) {
+        alert("Email already exists!");
+        return;
+      }
+
+      const newUser = { id: Date.now(), name, email, password };
+      users.push(newUser);
+      saveUsers(users);
+
+      alert("Signup successful! Please login.");
+      signupForm.reset();
+      loginForm.style.display = "block";
+      signupForm.style.display = "none";
+      authTitle.textContent = "Login";
+    });
+
+   
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+      const password = document.getElementById("loginPassword").value;
+
+      const users = getUsers();
+      const user = users.find((u) => u.email === email && u.password === password);
+
+      if (!user) {
+        alert("Invalid email or password");
+        return;
+      }
+
+      setLoggedUser(user);
+
+      authSection.style.display = "none";
+      portfolioSection.classList.remove("hidden");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+
+      welcomePopup.classList.add("show");
+    });
+
+  
+    closeBtn.addEventListener("click", () => {
+      welcomePopup.classList.remove("show");
+    });
+    window.addEventListener("click", (e) => {
+      if (e.target === welcomePopup) {
+        welcomePopup.classList.remove("show");
+      }
+    });
+
+   
+    window.addEventListener("load", () => {
+      const loggedInUser = getLoggedUser();
+
+      if (loggedInUser) {
+        authSection.style.display = "none";
+        portfolioSection.classList.remove("hidden");
+      }
+    });
+
+  
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('#portfolioSection .card').forEach(c => observer.observe(c));
+  </script>
+</body>
+</html>
